@@ -39,6 +39,7 @@
 #include "../types/web_resource_request.h"
 #include "../utils/base64.h"
 #include "../utils/log.h"
+#include "../webview_environment/webview_environment_manager.h"
 #include "../utils/map.h"
 #include "../utils/strconv.h"
 #include "../utils/string.h"

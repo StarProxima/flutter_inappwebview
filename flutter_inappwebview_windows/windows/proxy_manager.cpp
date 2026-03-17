@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <cctype>
+
 #include "proxy_manager.h"
 #include "utils/flutter.h"
 #include "utils/log.h"
