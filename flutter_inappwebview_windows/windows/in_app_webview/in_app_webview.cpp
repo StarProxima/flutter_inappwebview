@@ -192,17 +192,28 @@ namespace flutter_inappwebview_plugin
         return S_OK;
       };
 
-    HRESULT hr;
     if (webViewEnvironment && webViewEnvironment->getEnvironment()) {
-      hr = callback(S_OK, webViewEnvironment->getEnvironment());
+      auto hr = callback(S_OK, webViewEnvironment->getEnvironment());
+      if (failedAndLog(hr)) {
+        completionHandler(nullptr, nullptr, nullptr);
+      }
+    }
+    else if (plugin && plugin->webViewEnvironmentManager) {
+      // Через defaultEnvironment_ - подхватывает proxy args из ProxyManager
+      plugin->webViewEnvironmentManager->createOrGetDefaultWebViewEnvironment([callback, completionHandler](WebViewEnvironment* defaultEnv)
+        {
+          if (defaultEnv && defaultEnv->getEnvironment()) {
+            auto hr = callback(S_OK, defaultEnv->getEnvironment());
+            if (failedAndLog(hr)) {
+              completionHandler(nullptr, nullptr, nullptr);
+            }
+          }
+          else {
+            completionHandler(nullptr, nullptr, nullptr);
+          }
+        });
     }
     else {
-      hr = CreateCoreWebView2EnvironmentWithOptions(
-        nullptr, nullptr, nullptr,
-        Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(callback).Get());
-    }
-
-    if (failedAndLog(hr)) {
       completionHandler(nullptr, nullptr, nullptr);
     }
   }
