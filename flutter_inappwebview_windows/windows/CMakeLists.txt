@@ -247,6 +247,8 @@ list(APPEND PLUGIN_SOURCES
   "cookie_manager.h"
   "platform_util.cpp"
   "platform_util.h"
+  "proxy_manager.cpp"
+  "proxy_manager.h"
 )
 
 # Define the plugin library target. Its name must not be changed (see comment
