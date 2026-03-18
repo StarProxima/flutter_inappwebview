@@ -92,7 +92,7 @@ namespace flutter_inappwebview_plugin
     this->inAppBrowser = inAppBrowser;
   }
 
-  void InAppWebView::createInAppWebViewEnv(const HWND parentWindow, const bool& willBeSurface, WebViewEnvironment* webViewEnvironment, const std::shared_ptr<InAppWebViewSettings> initialSettings, std::function<void(wil::com_ptr<ICoreWebView2Environment> webViewEnv,
+  void InAppWebView::createInAppWebViewEnv(const FlutterInappwebviewWindowsPlugin* plugin, const HWND parentWindow, const bool& willBeSurface, WebViewEnvironment* webViewEnvironment, const std::shared_ptr<InAppWebViewSettings> initialSettings, std::function<void(wil::com_ptr<ICoreWebView2Environment> webViewEnv,
     wil::com_ptr<ICoreWebView2Controller> webViewController,
     wil::com_ptr<ICoreWebView2CompositionController> webViewCompositionController)> completionHandler)
   {
@@ -200,7 +200,10 @@ namespace flutter_inappwebview_plugin
       }
     }
     else if (plugin && plugin->webViewEnvironmentManager) {
+<<<<<<< HEAD
       // Через defaultEnvironment_ - подхватывает proxy args из ProxyManager
+=======
+>>>>>>> 4baf2c469 (fix windows default WebViewEnvironment fallback)
       plugin->webViewEnvironmentManager->createOrGetDefaultWebViewEnvironment([callback, completionHandler](WebViewEnvironment* defaultEnv)
         {
           if (defaultEnv && defaultEnv->getEnvironment()) {
