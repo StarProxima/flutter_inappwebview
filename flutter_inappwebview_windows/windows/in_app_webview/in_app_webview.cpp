@@ -200,10 +200,7 @@ namespace flutter_inappwebview_plugin
       }
     }
     else if (plugin && plugin->webViewEnvironmentManager) {
-<<<<<<< HEAD
       // Через defaultEnvironment_ - подхватывает proxy args из ProxyManager
-=======
->>>>>>> 4baf2c469 (fix windows default WebViewEnvironment fallback)
       plugin->webViewEnvironmentManager->createOrGetDefaultWebViewEnvironment([callback, completionHandler](WebViewEnvironment* defaultEnv)
         {
           if (defaultEnv && defaultEnv->getEnvironment()) {
