@@ -3183,6 +3183,9 @@ namespace flutter_inappwebview_plugin
 
   bool InAppWebView::setVirtualHostNameToFolderMapping(const std::string& hostName, const std::string& folderPath, const int64_t& accessKind) const
   {
+    if (!webView) {
+      return false;
+    }
     wil::com_ptr<ICoreWebView2_3> webView3;
     if (FAILED(webView->QueryInterface(IID_PPV_ARGS(&webView3)))) {
       return false;
