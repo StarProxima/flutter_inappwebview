@@ -3181,6 +3181,21 @@ namespace flutter_inappwebview_plugin
     }
   }
 
+  bool InAppWebView::setVirtualHostNameToFolderMapping(const std::string& hostName, const std::string& folderPath, const int64_t& accessKind) const
+  {
+    if (!webView) {
+      return false;
+    }
+    wil::com_ptr<ICoreWebView2_3> webView3;
+    if (FAILED(webView->QueryInterface(IID_PPV_ARGS(&webView3)))) {
+      return false;
+    }
+    return succeededOrLog(webView3->SetVirtualHostNameToFolderMapping(
+      utf8_to_wide(hostName).c_str(),
+      utf8_to_wide(folderPath).c_str(),
+      static_cast<COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND>(accessKind)));
+  }
+
 
   void InAppWebView::getCertificate(const std::function<void(const std::optional<std::unique_ptr<SslCertificate>>)> completionHandler) const
   {
