@@ -291,7 +291,8 @@ endif()
 # So, creating here a custom function to apply the standard settings without the /WX flag.
 # Also, added /bigobj flag.
 function(FLUTTER_INAPPWEBVIEW_WINDOWS_APPLY_STANDARD_SETTINGS TARGET)
-  target_compile_features(${TARGET} PUBLIC cxx_std_17)
+  target_compile_features(${TARGET} PRIVATE cxx_std_20)
+  target_compile_options(${TARGET} PRIVATE /permissive)
   target_compile_options(${TARGET} PRIVATE /W4 /wd"4100")
   # Headers pulled from NuGet are third-party: their warnings are noise no
   # consumer of this plugin can act on. Needs VS 2019 16.10 for /external.
