@@ -35,7 +35,6 @@ add_custom_command(
   COMMAND ${NUGET} install Microsoft.Windows.CppWinRT -Version ${CPP_WINRT_VERSION} -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages
   COMMAND ${NUGET} install Microsoft.Web.WebView2 -Version ${WEBVIEW_VERSION} -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages
   COMMAND ${NUGET} install nlohmann.json -Version ${NLOHMANN_JSON_VERSION} -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages
-  DEPENDS ${NUGET}
 )
 
 # Any new source files that you add to the plugin should be added here.
@@ -294,6 +293,11 @@ endif()
 function(FLUTTER_INAPPWEBVIEW_WINDOWS_APPLY_STANDARD_SETTINGS TARGET)
   target_compile_features(${TARGET} PUBLIC cxx_std_17)
   target_compile_options(${TARGET} PRIVATE /W4 /wd"4100")
+  # Headers pulled from NuGet are third-party: their warnings are noise no
+  # consumer of this plugin can act on. Needs VS 2019 16.10 for /external.
+  if(MSVC_VERSION GREATER_EQUAL 1929)
+    target_compile_options(${TARGET} PRIVATE /external:W0 /external:I ${CMAKE_BINARY_DIR}/packages)
+  endif()
   target_compile_options(${TARGET} PRIVATE /EHsc)
   target_compile_options(${TARGET} PRIVATE /bigobj)
   target_compile_definitions(${TARGET} PRIVATE "_HAS_EXCEPTIONS=0")
